@@ -1,12 +1,15 @@
 #include "recvfile.h"
 #include <QFile>
-RecvFile::RecvFile(QTcpSocket* tcp,QObject *parent) : QThread(parent)
+RecvFile::RecvFile(qintptr sock,QObject *parent) : QThread(parent)
 {
-    m_tcp = tcp;
+   m_sock = sock;
 }
 
 void RecvFile::run()
 {
+    m_tcp = new QTcpSocket(this);
+    m_tcp->setSocketDescriptor(m_sock);
+
     QFile *file = new QFile("recv.txt");
     file->open(QFile::WriteOnly);
 

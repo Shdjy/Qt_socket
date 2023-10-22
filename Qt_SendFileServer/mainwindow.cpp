@@ -2,18 +2,20 @@
 #include "ui_mainwindow.h"
 #include <QHostAddress>
 #include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    m_s = new QTcpServer(this);
+    m_s = new MyTcpServer(this);
 
-    connect(m_s,&QTcpServer::newConnection,this,[=]()
+    connect(m_s,&MyTcpServer::newDescriptor,this,[=](qintptr sock)
     {
-        QTcpSocket *tcp = m_s->nextPendingConnection();
+
+        //QTcpSocket *tcp = m_s->nextPendingConnection();
         //创建子线程
-        RecvFile* subThread = new RecvFile(tcp);
+        RecvFile* subThread = new RecvFile(sock);
         subThread->start();
 
         connect(subThread,&RecvFile::over,this,[=]()

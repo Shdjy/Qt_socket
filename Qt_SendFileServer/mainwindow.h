@@ -5,7 +5,7 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 #include "recvfile.h"
-
+#include "mytcpserver.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -26,7 +26,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    QTcpServer *m_s;
+    MyTcpServer *m_s;
     QTcpSocket *m_tcp;
 
 };
