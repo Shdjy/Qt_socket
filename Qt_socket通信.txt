@@ -1,0 +1,24 @@
+
+服务端通信流程
+
+1、创建套接字服务器QTcpServer对象
+2、通过QTcpServer对象设置监听，即：QTcpServer::listen(),参数1：地址，参数2：端口。
+3、基于QTcpServer::newConnection()信号检测是否有新的客户端连接
+4、如果有新的客户端连接调用QTcpSocket *QTcpServer::nextPendingConnection()得到通信的套接字对象
+5、使用通信的套接字对象QTcpSocket和客户端进行通信
+
+客户端通讯流程
+
+1、创建通信的套接字类QTcpSocket对象
+2、使用服务器端绑定的IP和端口连接服务器QAbstractSocket::connectToHost()
+3、使用QTcpSocket对象和服务器进行通信
+
+
+多线程通信
+
+通过重写 incomingConnection(qintptr socketDescriptor)方法
+当有一个客户端发起连接incomingConnection就会被调用
+
+创建一个MyTcpServer类继承与QTcpServer类，重写incomingConnection方法。
+在MyTcpServer类中创建一个newDescriptor信号，并通过重写的incomingConnection方法发送。
+其他源文件中创建MyTcpServer对象。。。。。。newDescriptor信号
